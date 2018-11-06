@@ -56,14 +56,64 @@ class Hand(object):
                 if self.cards[i].get_rank() == self.cards[j].get_rank():
                     return True
         return False
+   
+    def is_twopair(self):
+        pairs = 0
+        for i in range(5):
+            for j in range(i+1, 5):
+                if self.cards[i].get_rank() == self.cards[j].get_rank():
+                    pairs += 1
+        if pairs == 2:
+            return True
+        else:
+            return False
+    
+    def is_four_of_a_kind(self):
+        for i in range(5):
+            for j in range(i+1, 5):
+                if self.cards[i].get_rank() == self.cards[j].get_rank():
+                    for k in range(j+1, 5):
+                        if self.cards[i].get_rank() == self.cards[k].get_rank():
+                            for l in range(k+1, 5):
+                                if self.cards[i].get_rank() == self.cards[l].get_rank():
+                                    return True
+        return False
+    
+    def is_three(self):
+        for i in range(5):
+            for j in range(i+1, 5):
+                for k in range(j+1, 5):
+                    if self.cards[i].get_rank() == self.cards[j].get_rank() and self.cards[j].get_rank() == self.cards[k].get_rank():
+                        return True
+        return False
+    
+    def is_flush(self):
+        if self.cards[0].get_suit() == self.cards[1].get_suit() == self.cards[2].get_suit() == self.cards[3].get_suit() \
+                == self.cards[4].get_suit():
+            return True
+        return False
 
+for i in range(100000):
+    new_deck = Deck()
+    new_deck.shuffle()
+    # print(new_deck)
+    hand = Hand(new_deck)
+    print(hand)
+    if hand.is_pair():
+        pair += 1
+    elif hand.is_flush():
+        flush += 1
+    elif hand.is_three():
+        three += 1
+    elif hand.is_twopair():
+        twopair += 1
+    else:
+        highcard += 1
+        
 
+print("Flush: ", flush)
+print("Three of a Kind: ", three)
+print("Two Pair: ", twopair)
+print("Pair: ", pair)
+print("High Card: ", highcard)
 
-
-new_deck = Deck()
-new_deck.shuffle()
-print(new_deck)
-hand = Hand(new_deck)
-print(hand)
-
-#change
